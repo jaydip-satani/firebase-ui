@@ -70,10 +70,9 @@ interface FirebaseConfig {
   messagingSenderId: string;
   appId: string;
 }
-
 interface FirestoreDocument {
   __id: string;
-  [key: string]: any;
+  [key: string]: string;
 }
 
 export default function Component() {
@@ -94,7 +93,14 @@ export default function Component() {
   const [jsonInput, setJsonInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [editingDoc, setEditingDoc] = useState<string | null>(null);
-  const [editValues, setEditValues] = useState<Record<string, any>>({});
+  type FirestorePrimitive = string | number | boolean | null;
+  type FirestoreValue =
+    | FirestorePrimitive
+    | FirestorePrimitive[]
+    | { [key: string]: FirestorePrimitive };
+  const [editValues, setEditValues] = useState<Record<string, FirestoreValue>>(
+    {}
+  );
   const [showConnectionDialog, setShowConnectionDialog] = useState(false);
   const [viewingDoc, setViewingDoc] = useState<FirestoreDocument | null>(null);
   const [showViewDialog, setShowViewDialog] = useState(false);
@@ -314,7 +320,7 @@ export default function Component() {
     return text.substring(0, maxLength) + "...";
   };
 
-  const formatValue = (value: any) => {
+  const formatValue = (value: string) => {
     if (value === null || value === undefined) return "null";
     if (typeof value === "object") return JSON.stringify(value);
     return String(value);
