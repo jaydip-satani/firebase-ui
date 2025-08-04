@@ -638,7 +638,7 @@ export default function Component() {
                                       Edit
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
-                                      onClick={() => deleteDocument(doc.id)}
+                                      onClick={() => deleteDocument(doc.__id)}
                                       className="text-red-600"
                                     >
                                       <Trash2 className="mr-2 h-4 w-4" />
